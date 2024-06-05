@@ -52,13 +52,23 @@ def save_timer_state():
     with open(TIMER_FILE, "w") as f:
         json.dump(timer_state, f)
 
+# Custom CSS to style the reset button
+st.markdown("""
+    <style>
+    .css-1offfwp edgvbvh9 {
+        color: white;
+        background-color: red;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
 # Display start, reset, and stop buttons
 col1, col2, col3 = st.columns(3)
 with col1:
     if st.button('Start'):
         start_timer()
 with col2:
-    if st.button('RESET', key='reset', help='Resetează cronometru', button_type='primary'):
+    if st.button('RESET', type="primary", key='reset', help='Resetează cronometru'):
         reset_timer()
 with col3:
     if st.button('Stop'):
@@ -80,6 +90,5 @@ st.header(time_str)
 if st.session_state.running:
     time.sleep(1)
     st.experimental_rerun()
-
 
 # streamlit run cronometru.py
