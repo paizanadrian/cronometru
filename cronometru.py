@@ -37,6 +37,12 @@ def stop_timer():
         st.session_state.running = False
         save_timer_state()
 
+def reset_timer():
+    st.session_state.start_time = 0
+    st.session_state.elapsed_time = 0
+    st.session_state.running = False
+    save_timer_state()
+
 def save_timer_state():
     timer_state = {
         "start_time": st.session_state.start_time,
@@ -46,12 +52,15 @@ def save_timer_state():
     with open(TIMER_FILE, "w") as f:
         json.dump(timer_state, f)
 
-# Display start and stop buttons
-col1, col2 = st.columns(2)
+# Display start, reset, and stop buttons
+col1, col2, col3 = st.columns(3)
 with col1:
     if st.button('Start'):
         start_timer()
 with col2:
+    if st.button('RESET', key='reset', help='Resetează cronometru', button_type='primary'):
+        reset_timer()
+with col3:
     if st.button('Stop'):
         stop_timer()
 
@@ -71,5 +80,6 @@ st.header(time_str)
 if st.session_state.running:
     time.sleep(1)
     st.experimental_rerun()
+
 
 # streamlit run cronometru.py
