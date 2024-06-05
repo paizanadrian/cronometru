@@ -24,6 +24,7 @@ if 'start_time' not in st.session_state:
     st.session_state.elapsed_time = timer_state["elapsed_time"]
     st.session_state.running = timer_state["running"]
 
+
 # Define functions to handle button clicks
 def start_timer():
     if not st.session_state.running:
@@ -31,11 +32,13 @@ def start_timer():
         st.session_state.running = True
         save_timer_state()
 
+
 def stop_timer():
     if st.session_state.running:
         st.session_state.elapsed_time = time.time() - st.session_state.start_time
         st.session_state.running = False
         save_timer_state()
+
 
 def reset_timer():
     st.session_state.start_time = 0
@@ -43,14 +46,16 @@ def reset_timer():
     st.session_state.running = False
     save_timer_state()
 
+
 def save_timer_state():
-    timer_state = {
+    timer_state_local = {
         "start_time": st.session_state.start_time,
         "elapsed_time": st.session_state.elapsed_time,
         "running": st.session_state.running
     }
-    with open(TIMER_FILE, "w") as f:
-        json.dump(timer_state, f)
+    with open(TIMER_FILE, "w") as file:
+        json.dump(timer_state_local, file)
+
 
 # Custom CSS to style the reset button
 st.markdown("""
@@ -90,5 +95,3 @@ st.header(time_str)
 if st.session_state.running:
     time.sleep(1)
     st.experimental_rerun()
-
-# streamlit run cronometru.py
